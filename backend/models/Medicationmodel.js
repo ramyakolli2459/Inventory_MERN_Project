@@ -17,7 +17,8 @@ genericName:{
 
     strength:{
         type:String,
-        required:true
+        required:true,
+        min:0
     },
 
     dosageForm:{
@@ -42,16 +43,19 @@ genericName:{
 
     quantity:{
         type:Number,
-        required:true
+        required:true,
+        min:0
     },
 
     reorderLevel:{
         type:Number,
-        required:true
+        required:true,
+        min:0
     },
 unitPrice:{
         type:Number,
-        required:true
+        required:true,
+        min:0
     
 }
 })

@@ -3,6 +3,7 @@ const cors=require("cors");
 require("dotenv").config();
 const Connect= require("../config/db.js")
 const route=require("../routes/medicationrouter")
+const Errorhandler=require("../middleware/errorhandler")
 
 const app=express();
 app.use(cors());
@@ -12,6 +13,7 @@ app.get("/",(req,res)=>{
 });
 
 app.use("/Api",route)
+app.use(Errorhandler)
 
 
 Connect()

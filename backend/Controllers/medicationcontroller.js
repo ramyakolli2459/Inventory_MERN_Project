@@ -1,33 +1,105 @@
 const Medication=require("../models/Medicationmodel");
 
-async function createMedication(req,res){
+async function createMedication(req,res,next){
+
+    try{
 
 const medication= await Medication.create(req.body)
     
 
-res.json(medication)
+res.status(201).json(medication)
+}
+
+catch(err){
+
+    next(err)
+}
+
 }
 
 
-async function getproduct(req,res){
+async function getproduct(req,res,next){
+    try{
     const Getproduct=await Medication.find()
-    res.json(Getproduct)
+    res.status(200).json(Getproduct)
+
 }
-async function getproductbyid(req,res){
+
+catch (err){
+
+    next(err)}}
+
+
+async function getproductbyid(req,res,next){
+
+    try{
         const id=req.params.id;
         const Getproductbyid=await Medication.findById(id)
-        res.json(Getproductbyid);
-    }
-async function updateproduct(req,res){
-    const id=req.params.id;
-    const Updateproduct=await Medication.findByIdAndUpdate(id,req.body,{new:true});
+        if(!Getproductbyid){
+        
+res.status(404).json({ message: "Medication not found" });
 
-    res.json(Updateproduct);
+        }
+
+        else{
+            res.status(200).json(Getproductbyid);
+        }
+
+    }
+
+        catch(err){
+
+            next(err)
+
+
+        }
+
+        }
+        
+    
+async function updateproduct(req,res,next){
+
+    try{
+    const id=req.params.id;
+
+    
+    const Updateproduct=await Medication.findByIdAndUpdate(id,req.body,{new:true,runValidators: true});
+if(Updateproduct){
+    res.status(200).json(Updateproduct);
 }
 
-async function deleteproduct(req,res){
+else{
+    res.status(404).json({message:"Not found"})
+}
+}
+
+catch(err){
+
+next(err)
+}}
+
+
+async function deleteproduct(req,res,next){
+
+    try{
+
+
     const id=req.params.id;
     const Deleteproduct=await Medication.findByIdAndDelete(id);
-    res.json(Deleteproduct);
+
+    if(Deleteproduct){
+    res.status(200).json(Deleteproduct);
 }
+else{
+   res.status(404).json({message:"Not found"}) 
+}
+    }
+
+catch(err){
+    next(err)
+}
+
+}
+
+
 module.exports= {createMedication,getproduct,getproductbyid,updateproduct,deleteproduct};
